@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,17 @@ public class GreetingsController {
 
 		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
 	}
+	
+	
+	@GetMapping(value = "buscaruserid") /* Mapeia a url */
+	@ResponseBody /* Fazer a descrição da resposta */
+	public ResponseEntity<Usuario> buscaruserid(
+			@RequestParam(name = "iduser") Long iduser) {/* @RequestParam(name = "iduser") recebe os dados para consultar */
+
+		Usuario usuario = usuarioRepository.findById(iduser).get(); 
+
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
 
 	@PostMapping(value = "salvar") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
@@ -42,8 +54,21 @@ public class GreetingsController {
 		Usuario user = usuarioRepository.save(usuario);
 
 		return new ResponseEntity<Usuario>(user, HttpStatus.CREATED);
-
+		
 	}
+	
+		@PutMapping(value = "atualizar") /* Mapeia a url */
+		@ResponseBody /* Fazer a descrição da resposta */
+		public ResponseEntity<?> atualizar(@RequestBody Usuario usuario) { /* quando se tem ? podemos retornar qualquer coisa */
+
+			if(usuario.getId() == null) {
+				return new ResponseEntity<String>("Id não foi informado para atualização", HttpStatus.OK);
+			}
+			Usuario user = usuarioRepository.saveAndFlush(usuario);
+
+			return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+
+		}
 	
 	@DeleteMapping(value = "delete") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
