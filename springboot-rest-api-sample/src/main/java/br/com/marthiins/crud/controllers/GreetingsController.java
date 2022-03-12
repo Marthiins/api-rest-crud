@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,10 +20,10 @@ import br.com.marthiins.crud.repository.UsuarioRepository;
  */
 @RestController
 public class GreetingsController {
- 
+
 	@Autowired /* Injeção de dependencias */
-	private UsuarioRepository usuarioRepository; /*usuario repository é uma variavel do java*/
-	
+	private UsuarioRepository usuarioRepository; /* usuario repository é uma variavel do java */
+
 	@GetMapping(value = "listatodos") /* Buscar da API buscar todos */
 	@ResponseBody /* Retorna os dados para o corpo da resposta */
 	public ResponseEntity<List<Usuario>> listaUsuario() {
@@ -30,7 +32,15 @@ public class GreetingsController {
 
 		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
 	}
-	
-	
-	
+
+	@PostMapping(value = "salvar") /* Mapeia a url */
+	@ResponseBody /* Fazer a descrição da resposta */
+	public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) { /* @RequestBody recebe os dados para salvar */
+
+		Usuario user = usuarioRepository.save(usuario);
+
+		return new ResponseEntity<Usuario>(user, HttpStatus.CREATED);
+
+	}
+
 }
