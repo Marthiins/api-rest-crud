@@ -35,16 +35,31 @@ public class GreetingsController {
 
 		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping(value = "buscaruserid") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
 	public ResponseEntity<Usuario> buscaruserid(
-			@RequestParam(name = "iduser") Long iduser) {/* @RequestParam(name = "iduser") recebe os dados para consultar */
+			@RequestParam(name = "iduser") Long iduser) {/*
+															 * @RequestParam(name = "iduser") recebe os dados para
+															 * consultar
+															 */
 
-		Usuario usuario = usuarioRepository.findById(iduser).get(); 
+		Usuario usuario = usuarioRepository.findById(iduser).get();
 
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "buscarPorNome") /* Mapeia a url */
+	@ResponseBody /* Fazer a descrição da resposta */
+	public ResponseEntity<List<Usuario>> buscarPorNome(
+			@RequestParam(name = "name") String name) {/*
+														 * @RequestParam(name = "iduser") recebe os dados para consultar
+														 */
+
+		List<Usuario> usuario = usuarioRepository
+				.buscarPorNome(name.trim().toUpperCase()); /* Pesquisa no banco trim tira os espaços */
+
+		return new ResponseEntity<List<Usuario>>(usuario, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "salvar") /* Mapeia a url */
@@ -54,22 +69,23 @@ public class GreetingsController {
 		Usuario user = usuarioRepository.save(usuario);
 
 		return new ResponseEntity<Usuario>(user, HttpStatus.CREATED);
-		
+
 	}
-	
-		@PutMapping(value = "atualizar") /* Mapeia a url */
-		@ResponseBody /* Fazer a descrição da resposta */
-		public ResponseEntity<?> atualizar(@RequestBody Usuario usuario) { /* quando se tem ? podemos retornar qualquer coisa */
 
-			if(usuario.getId() == null) {
-				return new ResponseEntity<String>("Id não foi informado para atualização", HttpStatus.OK);
-			}
-			Usuario user = usuarioRepository.saveAndFlush(usuario);
+	@PutMapping(value = "atualizar") /* Mapeia a url */
+	@ResponseBody /* Fazer a descrição da resposta */
+	public ResponseEntity<?> atualizar(
+			@RequestBody Usuario usuario) { /* quando se tem ? podemos retornar qualquer coisa */
 
-			return new ResponseEntity<Usuario>(user, HttpStatus.OK);
-
+		if (usuario.getId() == null) {
+			return new ResponseEntity<String>("Id não foi informado para atualização", HttpStatus.OK);
 		}
-	
+		Usuario user = usuarioRepository.saveAndFlush(usuario);
+
+		return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+
+	}
+
 	@DeleteMapping(value = "delete") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
 	public ResponseEntity<String> delete(
