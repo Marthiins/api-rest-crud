@@ -226,6 +226,24 @@ html {
 			var nome = $("#nome").val();
 			var idade = $("#idade").val();
 			var sexo = $("#sexo").val();
+			
+			if (nome == null || nome != null && nome.trim() == "") {
+				$("#nome").focus();
+				alert("Informe o nome");
+				return;
+			}
+
+			if (idade == null || idade != null && idade.trim() == "") {
+				$("#idade").focus();
+				alert("Informe a idade");
+				return;
+			}
+			
+			if (sexo == null || sexo != null && sexo.trim() == "") {
+				$("#sexo").focus();
+				alert("Informe o sexo");
+				return;
+			}
 
 			/*Ver a documentação do jquery para salavar , resetar*/
 			$.ajax({
