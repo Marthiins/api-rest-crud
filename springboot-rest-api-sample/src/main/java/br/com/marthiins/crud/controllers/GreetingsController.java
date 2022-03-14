@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.marthiins.crud.model.Usuario;
 import br.com.marthiins.crud.repository.UsuarioRepository;
 
-/**
- *
- * A sample greetings controller to return greeting text
- */
 @RestController
 public class GreetingsController {
 
@@ -39,10 +35,7 @@ public class GreetingsController {
 	@GetMapping(value = "buscaruserid") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
 	public ResponseEntity<Usuario> buscaruserid(
-			@RequestParam(name = "iduser") Long iduser) {/*
-															 * @RequestParam(name = "iduser") recebe os dados para
-															 * consultar
-															 */
+			@RequestParam(name = "iduser") Long iduser) {/*@RequestParam(name = "iduser") recebe os dados para consultar*/
 
 		Usuario usuario = usuarioRepository.findById(iduser).get();
 
@@ -52,12 +45,9 @@ public class GreetingsController {
 	@GetMapping(value = "buscarPorNome") /* Mapeia a url */
 	@ResponseBody /* Fazer a descrição da resposta */
 	public ResponseEntity<List<Usuario>> buscarPorNome(
-			@RequestParam(name = "name") String name) {/*
-														 * @RequestParam(name = "iduser") recebe os dados para consultar
-														 */
+		 @RequestParam(name = "name") String name) {/*@RequestParam(name = "iduser") recebe os dados para consulta*/
 
-		List<Usuario> usuario = usuarioRepository
-				.buscarPorNome(name.trim().toUpperCase()); /* Pesquisa no banco trim tira os espaços */
+		List<Usuario> usuario = usuarioRepository.buscarPorNome(name.trim().toUpperCase()); /* Pesquisa no banco trim tira os espaços */
 
 		return new ResponseEntity<List<Usuario>>(usuario, HttpStatus.OK);
 	}
